@@ -17,8 +17,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Optional;
 
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin
 @RestController
 @RequestMapping(value="apis/adm/")
 public class AdminRestController {
@@ -37,7 +38,7 @@ public class AdminRestController {
         return "conectado";
     }
 
-    @GetMapping("/delete-orgao")
+    @DeleteMapping("/delete-orgao")
     public ResponseEntity<Object> excluirOrgao(@RequestParam(value="id") Long id)
     {
         if(orgaoService.delete(id))
@@ -52,6 +53,21 @@ public class AdminRestController {
         Orgao novo;
         novo=orgaoService.save(orgao);
         return new ResponseEntity<>(novo, HttpStatus.OK);
+    }
+
+    @PutMapping("/update-orgao/{id}")
+    public ResponseEntity<Object> alterarOrgao(@PathVariable Long id, @RequestBody Orgao orgao) {
+        Orgao orgaoOptional = orgaoService.getById(id);
+
+        if (orgaoOptional == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        orgaoOptional.setNome(orgao.getNome());
+
+        orgaoService.save(orgaoOptional);
+
+        return ResponseEntity.ok(orgaoOptional);
     }
 
     @GetMapping("/get-orgao")
@@ -70,7 +86,7 @@ public class AdminRestController {
     }
 
 
-    @GetMapping("/delete-denuncia")
+    @DeleteMapping("/delete-denuncia")
     public ResponseEntity<Object> excluirDenuncia(@RequestParam(value="id") Long id) {
         if (denunciaService.delete(id))
             return new ResponseEntity<>("", HttpStatus.OK);
@@ -161,8 +177,7 @@ public class AdminRestController {
         return new ResponseEntity<>(denunciaService.findAllByUsuario(id),HttpStatus.OK);
     }
 
-
-    @GetMapping("/delete-Tipo")
+    @DeleteMapping("/delete-Tipo")
     public ResponseEntity<Object> excluirTipo(@RequestParam(value="id") Long id)
     {
         if(tipoService.delete(id))
@@ -176,6 +191,21 @@ public class AdminRestController {
     {
         Tipo novo=tipoService.save(tipo);
         return new ResponseEntity<>(novo, HttpStatus.OK);
+    }
+
+    @PutMapping("/update-tipo/{id}")
+    public ResponseEntity<Object> alterarTipo (@PathVariable Long id, @RequestBody Tipo tipo) {
+        Tipo tipoOptional = tipoService.getById(id);
+
+        if (tipoOptional == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        tipoOptional.setNome(tipo.getNome());
+
+        tipoService.save(tipoOptional);
+
+        return ResponseEntity.ok(tipoOptional);
     }
 
     @GetMapping("/get-Tipo")

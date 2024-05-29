@@ -9,11 +9,11 @@ function parseJwt(token) {
 }
 
 function formatarData(data) {
-    const dataObj = new Date(data)
-    const dia = String(dataObj.getDate()).padStart(2, '0')
-    const mes = String(dataObj.getMonth() + 1).padStart(2, '0')
-    const ano = dataObj.getFullYear()
-    return `${dia}/${mes}/${ano}`
+	const dataObj = new Date(data)
+	const dia = String(dataObj.getDate()).padStart(2, '0')
+	const mes = String(dataObj.getMonth() + 1).padStart(2, '0')
+	const ano = dataObj.getFullYear()
+	return `${dia}/${mes}/${ano}`
 }
 
 function login(event) {
@@ -77,7 +77,7 @@ function atualizarListaOrgaos() {
 }
 
 function criarOrgao(event) {
-
+	event.preventDefault()
 	const nome = document.getElementById('nomeOrgao').value
 
 	const orgao = JSON.stringify({
@@ -94,14 +94,69 @@ function criarOrgao(event) {
 	}
 
 	fetch("http://localhost:8080/apis/adm/add-orgao", requestOptions)
+		.then(() => atualizarListaOrgaos())
+}
+
+function abrirModal(id, nome) {
+	document.getElementById('editOrgaoId').value = id
+	document.getElementById('editNomeOrgao').value = nome
+	document.getElementById('editOrgaoModal').classList.remove('hidden')
+}
+
+function fecharModal() {
+	document.getElementById('editOrgaoModal').classList.add('hidden')
 }
 
 function alterarOrgao(id) {
-	console.log(id)
+	fetch(`http://localhost:8080/apis/adm/get-orgao?id=${id}`)
+		.then(response => response.json())
+		.then(data => {
+			abrirModal(data.id, data.nome)
+		})
+		.catch(error => console.error('Erro ao buscar órgão:', error))
+}
+
+function salvarAlteracaoOrgao(event) {
+	event.preventDefault()
+	const id = document.getElementById('editOrgaoId').value
+	const nome = document.getElementById('editNomeOrgao').value
+
+	const orgaoAtualizado = JSON.stringify({ "nome": nome })
+
+	const requestOptions = {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: orgaoAtualizado,
+		redirect: "follow"
+	}
+
+	fetch(`http://localhost:8080/apis/adm/update-orgao/${id}`, requestOptions)
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Erro ao atualizar órgão')
+			}
+			return response.json()
+		})
+		.then(data => {
+			fecharModal()
+			atualizarListaOrgaos()
+		})
+		.catch(error => console.error('Erro ao salvar alterações:', error))
 }
 
 function excluirOrgao(id) {
-	console.log(id)
+	fetch(`http://localhost:8080/apis/adm/delete-orgao?id=${id}`, { method: 'DELETE' })
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Erro ao excluir órgão');
+			}
+		})
+		.then(() => {
+			atualizarListaOrgaos();
+		})
+		.catch(error => console.error('Erro ao excluir órgão:', error));
 }
 
 function atualizarListaTipoProblemas() {
@@ -130,6 +185,7 @@ function atualizarListaTipoProblemas() {
 }
 
 function criarProblema(event) {
+	event.preventDefault()
 	const nome = document.getElementById('nomeProblema').value
 
 	const orgao = JSON.stringify({
@@ -146,14 +202,69 @@ function criarProblema(event) {
 	}
 
 	fetch("http://localhost:8080/apis/adm/add-Tipo", requestOptions)
+		.then(() => atualizarListaTipoProblemas())
 }
 
 function alterarProblema(id) {
-	console.log(id)
+	fetch(`http://localhost:8080/apis/adm/get-Tipo?id=${id}`)
+		.then(response => response.json())
+		.then(data => {
+			abrirModalProblema(data.id, data.nome)
+		})
+		.catch(error => console.error('Erro ao buscar tipo de problema:', error))
+}
+
+function abrirModalProblema(id, nome) {
+	document.getElementById('editProblemaId').value = id
+	document.getElementById('editNomeProblema').value = nome
+	document.getElementById('editProblemaModal').classList.remove('hidden')
+}
+
+function fecharModalProblema() {
+	document.getElementById('editProblemaModal').classList.add('hidden')
+}
+
+function salvarAlteracaoProblema(event) {
+	event.preventDefault()
+	const id = document.getElementById('editProblemaId').value
+	const nome = document.getElementById('editNomeProblema').value
+
+	const problemaAtualizado = JSON.stringify({ "nome": nome })
+
+	const requestOptions = {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: problemaAtualizado,
+		redirect: "follow"
+	}
+
+	fetch(`http://localhost:8080/apis/adm/update-tipo/${id}`, requestOptions)
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Erro ao atualizar tipo de problema')
+			}
+			return response.json()
+		})
+		.then(data => {
+			fecharModalProblema()
+			atualizarListaTipoProblemas()
+		})
+		.catch(error => console.error('Erro ao salvar alterações:', error))
 }
 
 function excluirProblema(id) {
-	console.log(id)
+	fetch(`http://localhost:8080/apis/adm/delete-Tipo?id=${id}`, { method: 'DELETE' })
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Erro ao excluir tipo de problema')
+			}
+		})
+		.then(() => {
+			atualizarListaTipoProblemas()
+		})
+		.catch(error => console.error('Erro ao excluir tipo de problema:', error))
 }
 
 function atualizarListaDenuncias() {
@@ -194,5 +305,14 @@ function darFeedback(id) {
 }
 
 function excluirDenuncia(id) {
-	console.log(id)
+	fetch(`http://localhost:8080/apis/adm/delete-denuncia?id=${id}`, { method: 'DELETE' })
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Erro ao excluir denúncia')
+			}
+		})
+		.then(() => {
+			atualizarListaDenuncias()
+		})
+		.catch(error => console.error('Erro ao excluir denúncia:', error))
 }

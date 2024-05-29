@@ -37,6 +37,23 @@
             <div id="listaOrgaos">
                 <!-- Lista de órgãos será carregada aqui -->
             </div>
+
+            <div id="editOrgaoModal"
+                class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+                <div class="bg-white p-6 rounded shadow-md">
+                    <h2 class="text-2xl mb-4">Alterar Órgão</h2>
+                    <input type="hidden" id="editOrgaoId">
+                    <label for="editNomeOrgao" class="block text-sm font-medium text-gray-700">Nome do Órgão</label>
+                    <input type="text" id="editNomeOrgao" class="block w-full mt-1 p-2 border rounded mb-4"
+                        placeholder="Nome do Órgão">
+                    <div class="flex justify-end">
+                        <button onclick="salvarAlteracaoOrgao(event)"
+                            class="bg-green-500 text-white px-4 py-2 rounded mr-2">Salvar</button>
+                        <button onclick="fecharModal()"
+                            class="bg-red-500 text-white px-4 py-2 rounded">Cancelar</button>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- CRUD Tipos de Problemas Section -->
@@ -50,6 +67,24 @@
             </form>
             <div id="listaProblemas">
                 <!-- Lista de tipos de problemas será carregada aqui -->
+            </div>
+
+            <div id="editProblemaModal"
+                class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+                <div class="bg-white p-6 rounded shadow-md">
+                    <h2 class="text-2xl mb-4">Alterar Tipo de Problema</h2>
+                    <input type="hidden" id="editProblemaId">
+                    <label for="editNomeProblema" class="block text-sm font-medium text-gray-700">Tipo de
+                        Problema</label>
+                    <input type="text" id="editNomeProblema" class="block w-full mt-1 p-2 border rounded mb-4"
+                        placeholder="Tipo de Problema">
+                    <div class="flex justify-end">
+                        <button onclick="salvarAlteracaoProblema(event)"
+                            class="bg-green-500 text-white px-4 py-2 rounded mr-2">Salvar</button>
+                        <button onclick="fecharModalProblema()"
+                            class="bg-red-500 text-white px-4 py-2 rounded">Cancelar</button>
+                    </div>
+                </div>
             </div>
         </section>
 
