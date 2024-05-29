@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
 @RequestMapping(value="apis/adm/")
 public class AdminRestController {
@@ -186,7 +187,7 @@ public class AdminRestController {
         return new ResponseEntity<>(tipo,HttpStatus.OK);
     }
 
-    @GetMapping("/get-all-Tipos")
+    @GetMapping("/get-all-tipos")
     public ResponseEntity<Object> buscarTodosTipos()
     {
         return new ResponseEntity<>(tipoService.findAll(),HttpStatus.OK);
