@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração - Ativo e Operante!</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Ativo e Operante!</h1>
+    </header>
+
+    <main>
+        <section id="admin">
+            <h2>Administração</h2>
+            <nav>
+                <ul>
+                    <li><a href="#crudOrgaos">Gerenciar Órgãos</a></li>
+                    <li><a href="#crudProblemas">Gerenciar Tipos de Problemas</a></li>
+                    <li><a href="#listarDenuncias">Listar Denúncias</a></li>
+                </ul>
+            </nav>
+        </section>
+
+        <!-- CRUD Órgãos Section -->
+        <section id="crudOrgaos">
+            <h2>Gerenciar Órgãos</h2>
+            <form id="orgaoForm">
+                <label for="nomeOrgao">Nome do Órgão:</label>
+                <input type="text" id="nomeOrgao" name="nomeOrgao" required>
+                <button type="submit">Adicionar Órgão</button>
+            </form>
+            <div id="listaOrgaos">
+                <!-- Lista de órgãos será carregada aqui -->
+            </div>
+        </section>
+
+        <!-- CRUD Tipos de Problemas Section -->
+        <section id="crudProblemas">
+            <h2>Gerenciar Tipos de Problemas</h2>
+            <form id="problemaForm">
+                <label for="nomeProblema">Tipo de Problema:</label>
+                <input type="text" id="nomeProblema" name="nomeProblema" required>
+                <button type="submit">Adicionar Problema</button>
+            </form>
+            <div id="listaProblemas">
+                <!-- Lista de tipos de problemas será carregada aqui -->
+            </div>
+        </section>
+
+        <!-- Listar Denúncias Section -->
+        <section id="listarDenuncias">
+            <h2>Listar Denúncias</h2>
+            <div id="denuncias">
+                <!-- Lista de denúncias será carregada aqui -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Ativo e Operante!</p>
+    </footer>
+</body>
+</html>
